@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Chanin"
+    given-names: "David"
+  - family-names: "Hunter"
+    given-names: "Anthony"
+  - family-names: "Camburu"
+    given-names: "Oana-Maria"
+title: "Identifying Linear Relational Concepts in Large Language Models"
+doi: 10.48550/arXiv.2311.08968
+date-released: 2023-11-15
+url: "https://arxiv.org/abs/2311.08968"
