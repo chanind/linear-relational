@@ -15,7 +15,7 @@ def balance_grouped_items(
     seed: int | float | str = 42,
 ) -> list[T]:
     """
-    Helper to pick items in a round-robin fashion from each of the possible groups
+    Pick items in a round-robin fashion from each of the possible groups
     Tries to balance the amount of items that come from each group as much as possible
     `items_by_group` is a dict of group name to list of items
     """

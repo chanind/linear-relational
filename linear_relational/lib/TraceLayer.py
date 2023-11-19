@@ -7,7 +7,7 @@ subsequence slices intervals from Sequential modules.
 get_module, replace_module, get_parameter resolve dotted names.
 set_requires_grad recursively sets requires_grad in module parameters.
 
-Copied from https://github.com/kmeng01/rome/blob/main/util/nethook.py
+Based on https://github.com/kmeng01/rome/blob/main/util/nethook.py
 """
 
 from __future__ import annotations

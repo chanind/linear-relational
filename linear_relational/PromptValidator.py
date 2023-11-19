@@ -23,8 +23,8 @@ class MatchingPromptsCache(DataClassJsonMixin):
 
 class PromptValidator:
     """
-    Helper class to filter prompts that match a given list of tokens.
-    This class handles caching results to avoid repeating work between runs.
+    PromptValidator filters prompts based on whether the model's answers match the expected answers.
+    This class can cache results to avoid repeating work between runs.
     """
 
     _cache: MatchingPromptsCache
