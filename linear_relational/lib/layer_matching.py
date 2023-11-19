@@ -1,4 +1,6 @@
-from typing import Callable, Union
+import re
+from collections import defaultdict
+from typing import Callable, Iterable, Union
 
 from torch import nn
 
@@ -59,3 +61,32 @@ def _layer_matcher_to_callable(
         # for some reason mypy doesn't like directly returning the lambda without assigning to a var first
         return matcher_callable
     return layer_matcher
+
+
+LAYER_GUESS_RE = r"^([^\d]+)\.([\d]+)(.*)$"
+
+
+def guess_hidden_layer_matcher(model: nn.Module) -> str:
+    """
+    Guess the hidden layer matcher for a given model. This is a best guess and may not always be correct.
+    """
+    return _guess_hidden_layer_matcher_from_layers(dict(model.named_modules()).keys())
+
+
+# broken into a separate function for easier testing
+def _guess_hidden_layer_matcher_from_layers(layers: Iterable[str]) -> str:
+    counts_by_guess: dict[str, int] = defaultdict(int)
+    for layer in layers:
+        if re.match(LAYER_GUESS_RE, layer):
+            guess = re.sub(LAYER_GUESS_RE, r"\1.{num}\3", layer)
+            counts_by_guess[guess] += 1
+    if len(counts_by_guess) == 0:
+        raise ValueError(
+            "Could not guess hidden layer matcher, please provide a layer_matcher"
+        )
+
+    # score is higher for guesses that match more often, are and shorter in length
+    guess_scores = [
+        (guess, count + 1 / len(guess)) for guess, count in counts_by_guess.items()
+    ]
+    return max(guess_scores, key=lambda x: x[1])[0]
