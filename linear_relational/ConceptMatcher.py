@@ -1,22 +1,23 @@
 from dataclasses import dataclass
-from typing import Callable, Sequence, Union
+from typing import Callable, Optional, Sequence, Union
 
 import torch
 from tokenizers import Tokenizer
 from torch import nn
 
 from linear_relational.Concept import Concept
-from linear_relational.lib.constants import DEFAULT_DEVICE
 from linear_relational.lib.extract_token_activations import extract_token_activations
 from linear_relational.lib.layer_matching import (
     LayerMatcher,
     collect_matching_layers,
     get_layer_name,
+    guess_hidden_layer_matcher,
 )
 from linear_relational.lib.token_utils import (
     ensure_tokenizer_has_pad_token,
     find_final_word_token_index,
 )
+from linear_relational.lib.torch_utils import get_device
 from linear_relational.lib.util import batchify
 
 QuerySubject = Union[str, int, Callable[[str, list[int]], int]]
@@ -40,28 +41,25 @@ class ConceptMatcher:
     tokenizer: Tokenizer
     layer_matcher: LayerMatcher
     layer_name_to_num: dict[str, int]
-    device: torch.device
 
     def __init__(
         self,
         model: nn.Module,
         tokenizer: Tokenizer,
         concepts: list[Concept],
-        layer_matcher: LayerMatcher,
-        device: torch.device = DEFAULT_DEVICE,
+        layer_matcher: Optional[LayerMatcher] = None,
     ) -> None:
         self.concepts = concepts
         self.model = model
         self.tokenizer = tokenizer
-        self.layer_matcher = layer_matcher
+        self.layer_matcher = layer_matcher or guess_hidden_layer_matcher(model)
         ensure_tokenizer_has_pad_token(tokenizer)
         num_layers = len(collect_matching_layers(self.model, self.layer_matcher))
         self.layer_name_to_num = {}
         for layer_num in range(num_layers):
             self.layer_name_to_num[
-                get_layer_name(model, layer_matcher, layer_num)
+                get_layer_name(model, self.layer_matcher, layer_num)
             ] = layer_num
-        self.device = device
 
     def query(self, query: str, subject: QuerySubject) -> dict[str, ConceptMatchResult]:
         return self.query_bulk([ConceptMatchQuery(query, subject)])[0]
@@ -88,7 +86,7 @@ class ConceptMatcher:
                 layers=self.layer_name_to_num.keys(),
                 texts=[q.text for q in queries],
                 token_indices=subj_tokens,
-                device=self.device,
+                device=get_device(self.model),
                 # batching is handled already, so no need to batch here too
                 batch_size=len(queries),
                 show_progress=False,

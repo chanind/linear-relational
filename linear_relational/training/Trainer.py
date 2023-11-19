@@ -1,5 +1,4 @@
 from collections import defaultdict
-from dataclasses import dataclass
 from time import time
 from typing import Literal, Optional
 
@@ -10,7 +9,11 @@ from torch import nn
 from linear_relational.Concept import Concept
 from linear_relational.lib.balance_grouped_items import balance_grouped_items
 from linear_relational.lib.extract_token_activations import extract_token_activations
-from linear_relational.lib.layer_matching import LayerMatcher, get_layer_name
+from linear_relational.lib.layer_matching import (
+    LayerMatcher,
+    get_layer_name,
+    guess_hidden_layer_matcher,
+)
 from linear_relational.lib.logger import log_or_print, logger
 from linear_relational.lib.token_utils import PromptAnswerData, find_prompt_answer_data
 from linear_relational.lib.torch_utils import get_device
@@ -23,12 +26,23 @@ from linear_relational.training.train_lre import ObjectAggregation, train_lre
 VectorAggregation = Literal["pre_mean", "post_mean"]
 
 
-@dataclass
 class Trainer:
     model: nn.Module
     tokenizer: Tokenizer
     layer_matcher: LayerMatcher
-    prompt_validator: Optional[PromptValidator] = None
+    prompt_validator: PromptValidator
+
+    def __init__(
+        self,
+        model: nn.Module,
+        tokenizer: Tokenizer,
+        layer_matcher: Optional[LayerMatcher] = None,
+        prompt_validator: Optional[PromptValidator] = None,
+    ) -> None:
+        self.model = model
+        self.tokenizer = tokenizer
+        self.layer_matcher = layer_matcher or guess_hidden_layer_matcher(model)
+        self.prompt_validator = prompt_validator or PromptValidator(model, tokenizer)
 
     def train_lre(
         self,
@@ -171,10 +185,7 @@ class Trainer:
         valid_prompts = prompts
         if validate_prompts:
             log_or_print(f"validating {len(prompts)} prompts", verbose=verbose)
-            prompt_validator = self.prompt_validator or PromptValidator(
-                self.model, self.tokenizer
-            )
-            valid_prompts = prompt_validator.filter_prompts(
+            valid_prompts = self.prompt_validator.filter_prompts(
                 prompts, batch_size, verbose
             )
         if len(valid_prompts) == 0:

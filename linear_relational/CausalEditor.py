@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Sequence, TypeVar, Union, cast
+from typing import Callable, Optional, Sequence, TypeVar, Union, cast
 
 import torch
 from tokenizers import Tokenizer
@@ -12,6 +12,7 @@ from linear_relational.lib.layer_matching import (
     LayerMatcher,
     collect_matching_layers,
     get_layer_name,
+    guess_hidden_layer_matcher,
 )
 from linear_relational.lib.token_utils import (
     ensure_tokenizer_has_pad_token,
@@ -55,18 +56,18 @@ class CausalEditor:
         model: nn.Module,
         tokenizer: Tokenizer,
         concepts: list[Concept],
-        layer_matcher: LayerMatcher,
+        layer_matcher: Optional[LayerMatcher] = None,
     ) -> None:
         self.concepts = concepts
         self.model = model
         self.tokenizer = tokenizer
-        self.layer_matcher = layer_matcher
+        self.layer_matcher = layer_matcher or guess_hidden_layer_matcher(model)
         ensure_tokenizer_has_pad_token(tokenizer)
         num_layers = len(collect_matching_layers(self.model, self.layer_matcher))
         self.layer_name_to_num = {}
         for layer_num in range(num_layers):
             self.layer_name_to_num[
-                get_layer_name(model, layer_matcher, layer_num)
+                get_layer_name(model, self.layer_matcher, layer_num)
             ] = layer_num
 
     @property
