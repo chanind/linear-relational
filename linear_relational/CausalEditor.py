@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Optional, Sequence, TypeVar, Union, cast
+from typing import Callable, Literal, Optional, Sequence, TypeVar, Union, cast
 
 import torch
 from tokenizers import Tokenizer
@@ -78,13 +78,12 @@ class CausalEditor:
         self,
         text: str,
         subject: EditorSubject,
-        concept_vector_layer: int,
         remove_concept: str,
         add_concept: str,
+        # if False, edit the subject token at every layer
+        edit_single_layer: int | Literal[False] = False,
         predict_num_tokens: int = 1,
         magnitude_multiplier: float = 1.0,
-        # if False, edit the subject token at every layer
-        edit_single_layer_only: bool = True,
         # if True, use the magnitude of the projection of the remove_concept against the subject's original activation
         # if False, use the magnitude of the subject's original activation
         use_remove_concept_projection_magnitude: bool = False,
@@ -95,9 +94,8 @@ class CausalEditor:
                     text, subject, remove_concept, add_concept, predict_num_tokens
                 )
             ],
-            concept_vector_layer=concept_vector_layer,
             magnitude_multiplier=magnitude_multiplier,
-            edit_single_layer_only=edit_single_layer_only,
+            edit_single_layer=edit_single_layer,
             use_remove_concept_projection_magnitude=use_remove_concept_projection_magnitude,
         )
         return results[0]
@@ -105,19 +103,17 @@ class CausalEditor:
     def swap_subject_concepts_and_predict_greedy_bulk(
         self,
         requests: Sequence[ConceptSwapAndPredictGreedyRequest],
-        concept_vector_layer: int,
-        magnitude_multiplier: float = 1.0,
         # if False, edit the subject token at every layer
-        edit_single_layer_only: bool = True,
+        edit_single_layer: int | Literal[False] = False,
+        magnitude_multiplier: float = 1.0,
         # if True, use the magnitude of the projection of the remove_concept against the subject's original activation
         # if False, use the magnitude of the subject's original activation
         use_remove_concept_projection_magnitude: bool = False,
     ) -> list[str]:
         next_tokens = self.swap_subject_concepts_and_predict_tokens_greedy_bulk(
             requests,
-            concept_vector_layer=concept_vector_layer,
+            edit_single_layer=edit_single_layer,
             magnitude_multiplier=magnitude_multiplier,
-            edit_single_layer_only=edit_single_layer_only,
             use_remove_concept_projection_magnitude=use_remove_concept_projection_magnitude,
         )
         return [self.tokenizer.decode(tokens) for tokens in next_tokens]
@@ -125,10 +121,9 @@ class CausalEditor:
     def swap_subject_concepts_and_predict_tokens_greedy_bulk(
         self,
         requests: Sequence[ConceptSwapAndPredictGreedyRequest],
-        concept_vector_layer: int,
-        magnitude_multiplier: float = 1.0,
         # if False, edit the subject token at every layer
-        edit_single_layer_only: bool = True,
+        edit_single_layer: int | Literal[False],
+        magnitude_multiplier: float = 1.0,
         # if True, use the magnitude of the projection of the remove_concept against the subject's original activation
         # if False, use the magnitude of the subject's original activation
         use_remove_concept_projection_magnitude: bool = False,
@@ -156,9 +151,8 @@ class CausalEditor:
                 self._swap_subject_concepts_and_run_batch(
                     batch,
                     run_fn=run_batch_fn,
-                    concept_vector_layer=concept_vector_layer,
+                    edit_single_layer=edit_single_layer,
                     magnitude_multiplier=magnitude_multiplier,
-                    edit_single_layer_only=edit_single_layer_only,
                     use_remove_concept_projection_magnitude=use_remove_concept_projection_magnitude,
                 )
             )
@@ -167,10 +161,9 @@ class CausalEditor:
     def swap_subject_concepts_and_predict_all_token_probs_bulk(
         self,
         requests: Sequence[ConceptSwapRequest],
-        concept_vector_layer: int,
         magnitude_multiplier: float = 1.0,
         # if False, edit the subject token at every layer
-        edit_single_layer_only: bool = True,
+        edit_single_layer: int | Literal[False] = False,
         # if True, use the magnitude of the projection of the remove_concept against the subject's original activation
         # if False, use the magnitude of the subject's original activation
         use_remove_concept_projection_magnitude: bool = False,
@@ -190,9 +183,8 @@ class CausalEditor:
                 self._swap_subject_concepts_and_run_batch(
                     batch,
                     run_fn=run_batch_fn,
-                    concept_vector_layer=concept_vector_layer,
                     magnitude_multiplier=magnitude_multiplier,
-                    edit_single_layer_only=edit_single_layer_only,
+                    edit_single_layer=edit_single_layer,
                     use_remove_concept_projection_magnitude=use_remove_concept_projection_magnitude,
                 )
             )
@@ -202,10 +194,8 @@ class CausalEditor:
         self,
         requests: Sequence[ConceptSwapRequest],
         run_fn: Callable[[], T],
-        concept_vector_layer: int,
+        edit_single_layer: int | Literal[False],
         magnitude_multiplier: float = 1.0,
-        # if False, edit the subject token at every layer
-        edit_single_layer_only: bool = True,
         # if True, use the magnitude of the projection of the remove_concept against the subject's original activation
         # if False, use the magnitude of the subject's original activation
         use_remove_concept_projection_magnitude: bool = False,
@@ -239,8 +229,8 @@ class CausalEditor:
 
         def edit_model_output(output: torch.Tensor, layer_name: str) -> torch.Tensor:
             if (
-                edit_single_layer_only
-                and self.layer_name_to_num[layer_name] != concept_vector_layer
+                edit_single_layer is not False
+                and self.layer_name_to_num[layer_name] != edit_single_layer
             ):
                 return output
             fixed_output = untuple_tensor(output)

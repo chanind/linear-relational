@@ -19,10 +19,9 @@ def test_CausalEditor_swap_subject_concepts_and_predict_greedy_single(
     result = editor.swap_subject_concepts_and_predict_greedy(
         text="Beijing is located in the country of",
         subject="Beijing",
-        concept_vector_layer=8,
+        edit_single_layer=8,
         remove_concept=china.name,
         add_concept=japan.name,
-        edit_single_layer_only=True,
     )
     assert result == " Japan"
 
@@ -58,8 +57,7 @@ def test_CausalEditor_swap_subject_concepts_and_predict_greedy_bulk(
                 add_concept=germany.name,
             ),
         ],
-        concept_vector_layer=8,
-        edit_single_layer_only=True,
+        edit_single_layer=8,
         magnitude_multiplier=1.0,
     )
     assert results == [" Japan", " China", " Germany"]
