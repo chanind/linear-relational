@@ -12,7 +12,7 @@ $$
 LRE(s) = W s + b
 $$
 
-LREs can be inverted using a low-rank inverse, shown as $LRE^\{dagger}$, to estimate $s$ from $o$:
+LREs can be inverted using a low-rank inverse, shown as $LRE^\{\dagger}$, to estimate $s$ from $o$:
 
 $$
 LRE^{\dagger}(o) = W^{\dagger}(o - b)
