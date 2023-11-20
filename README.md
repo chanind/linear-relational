@@ -178,31 +178,32 @@ print(edited_answer) # " France"
 Edits can be performed in batches to make better use of GPU resources using `editor.swap_subject_concepts_and_predict_greedy_bulk()` as below:
 
 ```python
-from linear_relational import CausalEditor, ConceptSwapRequest
+from linear_relational import CausalEditor, ConceptSwapAndPredictGreedyRequest
 
 concepts = trainer.train_relation_concepts(...)
 
 editor = CausalEditor(model, tokenizer, concepts=concepts)
 
 swap_requests = [
-  ConceptSwapRequest(
+  ConceptSwapAndPredictGreedyRequest(
     text="Shanghai is located in the country of",
     subject="Shanghai",
     remove_concept="located in country: China",
     add_concept="located in country: France",
+    predict_num_tokens=1,
   ),
-  ConceptSwapRequest(
+  ConceptSwapAndPredictGreedyRequest(
     text="Berlin is located in the country of",
     subject="Berlin",
     remove_concept="located in country: Germany",
     add_concept="located in country: Japan",
+    predict_num_tokens=1,
   ),
 ]
 edited_answers = editor.swap_subject_concepts_and_predict_greedy_bulk(
   requests=swap_requests,
   edit_single_layer=False,
   magnitude_multiplier=0.1,
-  predict_num_tokens=1,
   batch_size=4,
 )
 print(edited_answers) # [" France", " Japan"]
