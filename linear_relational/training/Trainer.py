@@ -1,6 +1,6 @@
 from collections import defaultdict
 from time import time
-from typing import Literal, Optional
+from typing import Callable, Literal, Optional
 
 import torch
 from tokenizers import Tokenizer
@@ -88,6 +88,7 @@ class Trainer:
         batch_size: int = 8,
         validate_prompts: bool = True,
         verbose: bool = True,
+        name_concept_fn: Optional[Callable[[str, str], str]] = None,
         seed: int | str | float = 42,
     ) -> list[Concept]:
         processed_prompts = self._process_relation_prompts(
@@ -124,6 +125,7 @@ class Trainer:
             vector_aggregation=vector_aggregation,
             batch_size=batch_size,
             validate_prompts=False,  # we already validated the prompts above
+            name_concept_fn=name_concept_fn,
             verbose=verbose,
         )
 
@@ -134,6 +136,7 @@ class Trainer:
         vector_aggregation: VectorAggregation = "post_mean",
         batch_size: int = 8,
         validate_prompts: bool = True,
+        name_concept_fn: Optional[Callable[[str, str], str]] = None,
         verbose: bool = True,
     ) -> list[Concept]:
         relation = inv_lre.relation
@@ -163,6 +166,9 @@ class Trainer:
                 object_name,
                 activations,
             ) in object_activations.items():
+                name = None
+                if name_concept_fn is not None:
+                    name = name_concept_fn(relation, object_name)
                 concept = self._build_concept(
                     relation_name=relation,
                     layer=inv_lre.subject_layer,
@@ -170,6 +176,7 @@ class Trainer:
                     object_name=object_name,
                     activations=activations,
                     vector_aggregation=vector_aggregation,
+                    name=name,
                 )
                 concepts.append(concept)
         return concepts
@@ -200,6 +207,7 @@ class Trainer:
         activations: list[torch.Tensor],
         inv_lre: InvertedLre,
         vector_aggregation: VectorAggregation,
+        name: str | None,
     ) -> Concept:
         device = inv_lre.bias.device
         dtype = inv_lre.bias.dtype
@@ -215,6 +223,7 @@ class Trainer:
         vec = torch.stack(vecs).mean(dim=0)
         vec = vec / vec.norm()
         return Concept(
+            name=name,
             object=object_name,
             relation=relation_name,
             layer=layer,

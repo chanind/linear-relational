@@ -35,6 +35,15 @@ class ConceptMatchResult:
     score: float
 
 
+@dataclass
+class QueryResult:
+    concept_results: dict[str, ConceptMatchResult]
+
+    @property
+    def best_match(self) -> ConceptMatchResult:
+        return max(self.concept_results.values(), key=lambda x: x.score)
+
+
 class ConceptMatcher:
     concepts: list[Concept]
     model: nn.Module
@@ -61,7 +70,7 @@ class ConceptMatcher:
                 get_layer_name(model, self.layer_matcher, layer_num)
             ] = layer_num
 
-    def query(self, query: str, subject: QuerySubject) -> dict[str, ConceptMatchResult]:
+    def query(self, query: str, subject: QuerySubject) -> QueryResult:
         return self.query_bulk([ConceptMatchQuery(query, subject)])[0]
 
     def query_bulk(
@@ -69,15 +78,13 @@ class ConceptMatcher:
         queries: Sequence[ConceptMatchQuery],
         batch_size: int = 4,
         verbose: bool = False,
-    ) -> list[dict[str, ConceptMatchResult]]:
-        results: list[dict[str, ConceptMatchResult]] = []
+    ) -> list[QueryResult]:
+        results: list[QueryResult] = []
         for batch in batchify(queries, batch_size, show_progress=verbose):
             results.extend(self._query_batch(batch))
         return results
 
-    def _query_batch(
-        self, queries: Sequence[ConceptMatchQuery]
-    ) -> list[dict[str, ConceptMatchResult]]:
+    def _query_batch(self, queries: Sequence[ConceptMatchQuery]) -> list[QueryResult]:
         subj_tokens = [self._find_subject_token(query) for query in queries]
         with torch.no_grad():
             batch_subj_token_activations = extract_token_activations(
@@ -92,7 +99,7 @@ class ConceptMatcher:
                 show_progress=False,
             )
 
-        results: list[dict[str, ConceptMatchResult]] = []
+        results: list[QueryResult] = []
         for raw_subj_token_activations in batch_subj_token_activations:
             concept_results: dict[str, ConceptMatchResult] = {}
             # need to replace the layer name with the layer number
@@ -104,7 +111,7 @@ class ConceptMatcher:
                 concept_results[concept.name] = _apply_concept_to_activations(
                     concept, subj_token_activations
                 )
-            results.append(concept_results)
+            results.append(QueryResult(concept_results))
         return results
 
     def _find_subject_token(self, query: ConceptMatchQuery) -> int:

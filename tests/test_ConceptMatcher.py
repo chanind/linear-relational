@@ -17,9 +17,10 @@ def test_ConceptMatcher_query(
     conceptifier = ConceptMatcher(
         model, tokenizer, [concept], layer_matcher="transformer.h.{num}"
     )
-    results = conceptifier.query("This is a test", "test")
-    assert len(results) == 1
-    assert concept.name in results
+    result = conceptifier.query("This is a test", "test")
+    assert len(result.concept_results) == 1
+    assert concept.name in result.concept_results
+    assert result.best_match.concept == concept.name
 
 
 def test_ConceptMatcher_query_bulk(
@@ -42,4 +43,4 @@ def test_ConceptMatcher_query_bulk(
     )
     assert len(results) == 2
     for result in results:
-        assert concept.name in result
+        assert concept.name in result.concept_results
