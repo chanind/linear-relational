@@ -7,7 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-dataclasses-json = "^0.6.2"
 transformers = "^4.35.2"
 sentencepiece = "^0.1.99"
 tqdm = "^4.66.1"
