@@ -11,6 +11,7 @@ transformers = "^4.35.2"
 sentencepiece = "^0.1.99"
 tqdm = "^4.66.1"
 protobuf = "^4.25.0"
+dataclasses-json = "^0.6.2"
 
 
 [tool.poetry.group.dev.dependencies]
