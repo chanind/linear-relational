@@ -24,10 +24,7 @@ $$
 v_{o} = W^{\dagger}(o - b)
 $$
 
-For more information on LREs and LRCs, check out the following papers:
-
-- [Linearity of Relation Decoding in Transformer LMs](https://arxiv.org/abs/2308.09124)
-- [Identifying Linear Relational Concepts in Large Language Models](https://arxiv.org/abs/2311.08968)
+For more information on LREs and LRCs, check out [these](https://arxiv.org/abs/2308.09124) [papers](https://arxiv.org/abs/2311.08968)
 
 ## Installation
 
