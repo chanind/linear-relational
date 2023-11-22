@@ -2,6 +2,13 @@
 
 
 
+## v0.1.0 (2023-11-22)
+
+### Feature
+
+* feat: first version ([`6685bbf`](https://github.com/chanind/linear-relational/commit/6685bbf0a1257e2f027db78468b3f93e175f7bf1))
+
+
 ## v0.0.0 (2023-11-22)
 
 ### Unknown
