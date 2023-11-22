@@ -6,7 +6,7 @@ authors = ["David Chanin <chanindav@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10"
+python = "^3.10"
 transformers = "^4.35.2"
 tqdm = ">=4.0.0"
 dataclasses-json = "^0.6.2"
