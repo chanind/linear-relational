@@ -52,7 +52,7 @@ class Trainer:
         prompts: list[Prompt],
         object_aggregation: ObjectAggregation = "mean",
         validate_prompts: bool = True,
-        batch_size: int = 8,
+        validate_prompts_batch_size: int = 4,
         move_to_cpu: bool = False,
         verbose: bool = True,
     ) -> Lre:
@@ -60,7 +60,7 @@ class Trainer:
             relation=relation,
             prompts=prompts,
             validate_prompts=validate_prompts,
-            batch_size=batch_size,
+            validate_prompts_batch_size=validate_prompts_batch_size,
             verbose=verbose,
         )
         return train_lre(
@@ -85,7 +85,7 @@ class Trainer:
         object_aggregation: ObjectAggregation = "mean",
         vector_aggregation: VectorAggregation = "post_mean",
         inv_lre_rank: int = 200,
-        batch_size: int = 8,
+        validate_prompts_batch_size: int = 4,
         validate_prompts: bool = True,
         verbose: bool = True,
         name_concept_fn: Optional[Callable[[str, str], str]] = None,
@@ -95,7 +95,7 @@ class Trainer:
             relation=relation,
             prompts=prompts,
             validate_prompts=validate_prompts,
-            batch_size=batch_size,
+            validate_prompts_batch_size=validate_prompts_batch_size,
             verbose=verbose,
         )
         prompts_by_object = group_items(processed_prompts, lambda p: p.object_name)
@@ -115,7 +115,7 @@ class Trainer:
             prompts=lre_train_prompts,
             object_aggregation=object_aggregation,
             validate_prompts=False,  # we already validated the prompts above
-            batch_size=batch_size,
+            validate_prompts_batch_size=validate_prompts_batch_size,
             verbose=verbose,
         ).invert(inv_lre_rank)
 
@@ -123,7 +123,7 @@ class Trainer:
             inv_lre=inv_lre,
             prompts=processed_prompts,
             vector_aggregation=vector_aggregation,
-            batch_size=batch_size,
+            validate_prompts_batch_size=validate_prompts_batch_size,
             validate_prompts=False,  # we already validated the prompts above
             name_concept_fn=name_concept_fn,
             verbose=verbose,
@@ -134,7 +134,8 @@ class Trainer:
         inv_lre: InvertedLre,
         prompts: list[Prompt],
         vector_aggregation: VectorAggregation = "post_mean",
-        batch_size: int = 8,
+        validate_prompts_batch_size: int = 4,
+        extract_objects_batch_size: int = 4,
         validate_prompts: bool = True,
         name_concept_fn: Optional[Callable[[str, str], str]] = None,
         verbose: bool = True,
@@ -144,13 +145,13 @@ class Trainer:
             relation=relation,
             prompts=prompts,
             validate_prompts=validate_prompts,
-            batch_size=batch_size,
+            validate_prompts_batch_size=validate_prompts_batch_size,
             verbose=verbose,
         )
         start_time = time()
         object_activations = self._extract_target_object_activations_for_inv_lre(
             prompts=processed_prompts,
-            batch_size=batch_size,
+            batch_size=extract_objects_batch_size,
             object_aggregation=inv_lre.object_aggregation,
             object_layer=inv_lre.object_layer,
             show_progress=verbose,
@@ -186,14 +187,14 @@ class Trainer:
         relation: str,
         prompts: list[Prompt],
         validate_prompts: bool,
-        batch_size: int,
+        validate_prompts_batch_size: int,
         verbose: bool,
     ) -> list[Prompt]:
         valid_prompts = prompts
         if validate_prompts:
             log_or_print(f"validating {len(prompts)} prompts", verbose=verbose)
             valid_prompts = self.prompt_validator.filter_prompts(
-                prompts, batch_size, verbose
+                prompts, validate_prompts_batch_size, verbose
             )
         if len(valid_prompts) == 0:
             raise ValueError(f"No valid prompts found for {relation}.")
