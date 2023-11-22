@@ -24,7 +24,7 @@ $$
 v_{o} = W^{\dagger}(o - b)
 $$
 
-For more information on LREs and LRCs, check out [these](https://arxiv.org/abs/2308.09124) [papers](https://arxiv.org/abs/2311.08968)
+For more information on LREs and LRCs, check out [these](https://arxiv.org/abs/2308.09124) [papers](https://arxiv.org/abs/2311.08968).
 
 ## Installation
 
