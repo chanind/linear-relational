@@ -12,7 +12,7 @@ This library is inspired by and uses modified code from the following excellent 
 Contributing
 ------------
 
-Any contributions to improve this project are welcome! Please open an issue or pull request in `Github repo <https://github.com/chanind/linear-relational>`_ with bugfixes, changes, and improvements.
+Any contributions to improve this project are welcome! Please open an issue or pull request in the `Github repo <https://github.com/chanind/linear-relational>`_ with bugfixes, changes, and improvements.
 
 License
 -------
