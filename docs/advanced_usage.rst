@@ -58,8 +58,8 @@ We can perform concept matches in batches to better utilize GPU resources using 
     ]
     matches = matcher.query_bulk(match_queries, batch_size=4)
 
-    print(matches[0].best_match.name) # located in country: China
-    print(matches[1].best_match.name) # located in country: France
+    print(matches[0].best_match.concept) # located in country: China
+    print(matches[1].best_match.concept) # located in country: France
 
 
 Customizing LRC training
