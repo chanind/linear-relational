@@ -1,4 +1,4 @@
-# Linear Relational
+# Linear-Relational
 
 [![ci](https://img.shields.io/github/actions/workflow/status/chanind/linear-relational/ci.yaml?branch=main)](https://github.com/chanind/linear-relational)
 [![PyPI](https://img.shields.io/pypi/v/linear-relational?color=blue)](https://pypi.org/project/linear-relational/)
