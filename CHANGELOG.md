@@ -2,6 +2,13 @@
 
 
 
+## v0.1.3 (2023-11-23)
+
+### Fix
+
+* fix: match dtype of activations during Concept.forward ([`3a06459`](https://github.com/chanind/linear-relational/commit/3a064595c314d5b9ca1944e9eb4541a041128262))
+
+
 ## v0.1.2 (2023-11-23)
 
 ### Chore
