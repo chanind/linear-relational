@@ -146,7 +146,7 @@ edited_answer = editor.swap_subject_concepts_and_predict_greedy(
   remove_concept="located in country: China",
   add_concept="located in country: France",
   edit_single_layer=8,
-  magnitude_multiplier=1.0,
+  magnitude_multiplier=3.0,
   predict_num_tokens=1,
 )
 print(edited_answer) # " France"
