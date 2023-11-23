@@ -2,6 +2,23 @@
 
 
 
+## v0.1.1 (2023-11-23)
+
+### Chore
+
+* chore:  add Sphinx docs (#1)
+
+* adding a basic docs page and validating in ci
+
+* adding deploy pages action ([`4088d61`](https://github.com/chanind/linear-relational/commit/4088d61da5479fe7578511ed2afd3059cbd2341a))
+
+* chore: Adding badges to README.md ([`341b6cd`](https://github.com/chanind/linear-relational/commit/341b6cdd0c522e7492f3b49e1430a0e1fed33375))
+
+### Fix
+
+* fix: docs ([`ed8a203`](https://github.com/chanind/linear-relational/commit/ed8a203d25ecb8e55f11d24cf2f687ad0477fed4))
+
+
 ## v0.1.0 (2023-11-22)
 
 ### Feature
