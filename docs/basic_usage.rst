@@ -1,5 +1,5 @@
-Usage
-=====
+Basic usage
+===========
 This library assumes you're using PyTorch with a decoder-only generative language
 model (e.g., GPT, LLaMa, etc...), and a tokenizer from Huggingface.
 
@@ -156,43 +156,6 @@ hyperparameter that requires tuning depending on the model being edited.
     )
     print(edited_answer) # " France"
 
-Bulk editing
-''''''''''''
-
-Edits can be performed in batches to make better use of GPU resources using `editor.swap_subject_concepts_and_predict_greedy_bulk()` as below:
-
-.. code:: python
-
-    from linear_relational import CausalEditor, ConceptSwapAndPredictGreedyRequest
-
-    concepts = trainer.train_relation_concepts(...)
-
-    editor = CausalEditor(model, tokenizer, concepts=concepts)
-
-    swap_requests = [
-    ConceptSwapAndPredictGreedyRequest(
-        text="Shanghai is located in the country of",
-        subject="Shanghai",
-        remove_concept="located in country: China",
-        add_concept="located in country: France",
-        predict_num_tokens=1,
-    ),
-    ConceptSwapAndPredictGreedyRequest(
-        text="Berlin is located in the country of",
-        subject="Berlin",
-        remove_concept="located in country: Germany",
-        add_concept="located in country: Japan",
-        predict_num_tokens=1,
-    ),
-    ]
-    edited_answers = editor.swap_subject_concepts_and_predict_greedy_bulk(
-        requests=swap_requests,
-        edit_single_layer=False,
-        magnitude_multiplier=0.1,
-        batch_size=4,
-    )
-    print(edited_answers) # [" France", " Japan"]
-
 Concept matching
 ''''''''''''''''
 
@@ -211,25 +174,3 @@ We can use the ``ConceptMatcher`` class to do this matching.
 
     print(match_info.best_match.name) # located in country: China
     print(match_info.betch_match.score) # 0.832
-
-Bulk concept matching
-'''''''''''''''''''''
-
-We can perform concept matches in batches to better utilize GPU resources using ``matcher.query_bulk()`` as below:
-
-.. code:: python
-
-    from linear_relational import ConceptMatcher, ConceptMatchQuery
-
-    concepts = trainer.train_relation_concepts(...)
-
-    matcher = ConceptMatcher(model, tokenizer, concepts=concepts)
-
-    match_queries = [
-        ConceptMatchQuery("Beijng is a northern city", subject="Beijing"),
-        ConceptMatchQuery("I sawi him in Marseille", subject="Marseille"),
-    ]
-    matches = matcher.query_bulk(match_queries, batch_size=4)
-
-    print(matches[0].best_match.name) # located in country: China
-    print(matches[1].best_match.name) # located in country: France

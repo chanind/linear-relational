@@ -48,7 +48,8 @@ For more information on LREs and LRCs, check out `these <https://arxiv.org/abs/2
 .. toctree::
    :maxdepth: 2
 
-   usage
+   basic_usage
+   advanced_usage
    about
 
 .. toctree::
