@@ -21,6 +21,8 @@ pytest = "^7.4.3"
 torch = "^2.1.1"
 sentencepiece = "^0.1.99"
 protobuf = "^4.25.1"
+furo = "^2023.9.10"
+pygments = "^2.17.2"
 
 [build-system]
 requires = ["poetry-core"]
