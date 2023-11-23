@@ -4,6 +4,8 @@ from typing import Sequence
 from tokenizers import Tokenizer
 from torch import nn
 
+from linear_relational.lib.torch_utils import get_device
+
 from .token_utils import (
     any_answer_matches_expected,
     get_answer_token_ids,
@@ -50,6 +52,7 @@ def verify_answers_match_expected(
             tokenizer,
             batch_prompts,
             num_tokens=max_answer_length,
+            device=get_device(model),
         )
         for next_tokens, cur_expected_answers, cur_prompt in zip(
             batch_next_tokens, batch_expected_answers, batch_prompts
