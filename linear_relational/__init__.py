@@ -12,6 +12,7 @@ from .ConceptMatcher import (
     ConceptMatchResult,
     QueryResult,
 )
+from .lib.layer_matching import LayerMatcher
 from .Lre import InvertedLre, LowRankLre, Lre
 from .Prompt import Prompt
 from .PromptValidator import PromptValidator
@@ -32,4 +33,5 @@ __all__ = [
     "ConceptMatchQuery",
     "QueryResult",
     "Trainer",
+    "LayerMatcher",
 ]

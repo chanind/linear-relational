@@ -44,6 +44,7 @@ Linear Relational Concepts (LRCs) represent a concept :math:`(r, o)` as a direct
 
 For more information on LREs and LRCs, check out `these <https://arxiv.org/abs/2308.09124>`_ `papers <https://arxiv.org/abs/2311.08968>`_.
 
+------------
 
 .. toctree::
    :maxdepth: 2
@@ -51,6 +52,15 @@ For more information on LREs and LRCs, check out `these <https://arxiv.org/abs/2
    basic_usage
    advanced_usage
    about
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference:
+
+   api/trainer
+   api/lre
+   api/causal_editor
+   api/concept_matcher
 
 .. toctree::
    :caption: Project Links

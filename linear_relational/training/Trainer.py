@@ -27,6 +27,8 @@ VectorAggregation = Literal["pre_mean", "post_mean"]
 
 
 class Trainer:
+    """Train LREs and concepts from prompts"""
+
     model: nn.Module
     tokenizer: Tokenizer
     layer_matcher: LayerMatcher

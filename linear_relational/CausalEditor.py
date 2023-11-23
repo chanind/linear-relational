@@ -45,6 +45,8 @@ T = TypeVar("T")
 
 
 class CausalEditor:
+    """Modify model activations during inference to swap concepts"""
+
     concepts: list[Concept]
     model: nn.Module
     tokenizer: Tokenizer

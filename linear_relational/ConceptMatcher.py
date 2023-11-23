@@ -45,6 +45,8 @@ class QueryResult:
 
 
 class ConceptMatcher:
+    """Match concepts against subject activations in a model"""
+
     concepts: list[Concept]
     model: nn.Module
     tokenizer: Tokenizer

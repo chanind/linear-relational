@@ -138,3 +138,24 @@ passing ``object_aggregation="first_token"`` when training a LRE. For instance, 
     )
 
 If the answer is a single token, "mean" and "first_token" are equivalent. 
+
+
+Custom layer selection
+''''''''''''''''''''''
+
+By default, the library will try to guess which layers corresponding to hidden activations in the model,
+and will use these layers for reading activations and training LREs. If the layers the library guesses are not
+correct, or if you want to use different layers to extract activations and train LREs, you can pass in a 
+custom ``layer_matcher`` to the ``Trainer``, ``CausalEditor``, and ``ConceptMatcher`` when creating these
+objects.
+
+A ``layer_matcher`` is typically A string, and must include the substring ``"{num}"`` which will be replaced
+with the layer number to select a layer in the model. For instance, for GPT models, the matcher for
+hidden layers is ``"transformer.h.{num}"``. You can find a list of all layers in a model by calling
+``model.named_modules()``.
+
+For most cases, using a string is sufficient, but if you want to customize the layer matcher further
+you can pass in a function to ``layer_matcher`` which takes in the layer number as an int and 
+returns the layer in the model as a string. For instance, for GPT models, this could be provided as
+``lambda num: f"transformer.h.{num}"``.
+
