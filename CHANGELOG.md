@@ -2,6 +2,31 @@
 
 
 
+## v0.1.2 (2023-11-23)
+
+### Chore
+
+* chore: Update README.md ([`9e85cf0`](https://github.com/chanind/linear-relational/commit/9e85cf040d658b2df2f971f32fb988f3f3cc3ea9))
+
+* chore: improving docs ([`c1fb709`](https://github.com/chanind/linear-relational/commit/c1fb7096314674de45237d879230180559a37408))
+
+* chore: improving docs ([`ab4748e`](https://github.com/chanind/linear-relational/commit/ab4748e01d8f2c08c173491c7f9993312e826b89))
+
+* chore: updating docs with advanced usage ([`7439e71`](https://github.com/chanind/linear-relational/commit/7439e71bdbf0379deadeb983b8f0116bcf049c92))
+
+* chore: Add docs link to README.md ([`b915827`](https://github.com/chanind/linear-relational/commit/b915827b06f3442eaff73b49e382e4e93da124cf))
+
+* chore: typo in docs ([`b4f547a`](https://github.com/chanind/linear-relational/commit/b4f547a329af3a4fa2b4f91212c72d695e56b019))
+
+### Fix
+
+* fix: set device when checking if answers match ([`008c4b6`](https://github.com/chanind/linear-relational/commit/008c4b61fc707308e7cb4beafe8f4c065051eb48))
+
+### Unknown
+
+* Update README.md ([`33e7ebd`](https://github.com/chanind/linear-relational/commit/33e7ebd426b4e61dc9b7564057eb42d92ffc26e7))
+
+
 ## v0.1.1 (2023-11-23)
 
 ### Chore
