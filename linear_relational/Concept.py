@@ -34,7 +34,7 @@ class Concept(nn.Module):
         self.name = name or f"{self.relation}: {self.object}"
 
     def forward(self, activations: torch.Tensor) -> torch.Tensor:
-        vector = self.vector.to(activations.device)
+        vector = self.vector.to(activations.device, dtype=activations.dtype)
         if len(activations.shape) == 1:
             return vector @ activations
         return vector @ activations.T

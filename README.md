@@ -188,8 +188,8 @@ matcher = ConceptMatcher(model, tokenizer, concepts=concepts)
 
 match_info = matcher.query("Beijing is a northern city", subject="Beijing")
 
-print(match_info.best_match.name) # located in country: China
-print(match_info.betch_match.score) # 0.832
+print(match_info.best_match.concept) # located in country: China
+print(match_info.best_match.score) # 0.832
 ```
 
 ## Acknowledgements
