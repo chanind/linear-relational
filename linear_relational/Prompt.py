@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True, slots=True)
 class Prompt:
+    """A prompt for training LREs and LRCs"""
+
     text: str
     answer: str
     subject: str

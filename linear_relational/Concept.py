@@ -7,6 +7,8 @@ from torch import nn
 
 
 class Concept(nn.Module):
+    """Linear Relation Concept (LRC)"""
+
     layer: int
     vector: torch.Tensor
     object: str

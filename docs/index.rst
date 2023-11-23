@@ -1,5 +1,5 @@
 Linear-Relational
-=================================================
+=================
 
 A library for working with Linear Relational Embeddings (LREs) and Linear Relational Concepts (LRCs) for LLMs in PyTorch
 
@@ -46,9 +46,13 @@ For more information on LREs and LRCs, check out `these <https://arxiv.org/abs/2
 
 ------------
 
+Contents
+--------
+
 .. toctree::
    :maxdepth: 2
 
+   Home <self>
    basic_usage
    advanced_usage
    about
@@ -59,6 +63,7 @@ For more information on LREs and LRCs, check out `these <https://arxiv.org/abs/2
 
    api/trainer
    api/lre
+   api/concept
    api/causal_editor
    api/concept_matcher
 
