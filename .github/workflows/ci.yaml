@@ -37,7 +37,7 @@ jobs:
     concurrency: release
     environment:
       name: pypi
-      url: https://pypi.org/p/frame-semantic-transformer
+      url: https://pypi.org/p/linear-relational
     steps:
       - uses: actions/checkout@v4
         with:
