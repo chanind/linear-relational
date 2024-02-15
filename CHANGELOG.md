@@ -2,6 +2,21 @@
 
 
 
+## v0.1.4 (2024-02-15)
+
+### Chore
+
+* chore: fixing typing for newer torch types ([`3f668d9`](https://github.com/chanind/linear-relational/commit/3f668d964d0ea7a06742c4286f93250b1fe01abc))
+
+* chore: fix typo in  ci.yaml ([`2492912`](https://github.com/chanind/linear-relational/commit/249291238aa0665cc5c7e1280c21c0302f0e0b0c))
+
+* chore: fixing typo in docs ([`a6ddd0b`](https://github.com/chanind/linear-relational/commit/a6ddd0b7a1442f770ab3d2e0e9c8c76b3664aacd))
+
+### Fix
+
+* fix: adding py.typed marker to declare type inference ([`5249dd3`](https://github.com/chanind/linear-relational/commit/5249dd37f347457afcb017527a5014c2729b936f))
+
+
 ## v0.1.3 (2023-11-23)
 
 ### Fix
