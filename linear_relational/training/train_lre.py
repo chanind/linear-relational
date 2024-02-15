@@ -176,7 +176,9 @@ def _extract_object_activation(
 ) -> torch.Tensor:
     object_layer_output = object_layer_trace.output
     assert object_layer_output is not None  # keep mypy happy
-    object_activations = untuple_tensor(object_layer_output)[0, object_pred_indices]
+    output_tensor = untuple_tensor(object_layer_output)
+    pred_indices_tensor = torch.tensor(object_pred_indices, device=output_tensor.device)
+    object_activations = output_tensor[0, pred_indices_tensor]
     if object_aggregation == "mean":
         return object_activations.mean(dim=0)
     elif object_aggregation == "first_token":
