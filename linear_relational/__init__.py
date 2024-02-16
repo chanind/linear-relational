@@ -16,7 +16,8 @@ from .lib.layer_matching import LayerMatcher
 from .Lre import InvertedLre, LowRankLre, Lre
 from .Prompt import Prompt
 from .PromptValidator import PromptValidator
-from .training.Trainer import Trainer
+from .training.train_lre import ObjectAggregation
+from .training.Trainer import Trainer, VectorAggregation
 
 __all__ = [
     "CausalEditor",
@@ -34,4 +35,6 @@ __all__ = [
     "QueryResult",
     "Trainer",
     "LayerMatcher",
+    "VectorAggregation",
+    "ObjectAggregation",
 ]
