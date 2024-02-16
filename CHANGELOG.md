@@ -2,6 +2,13 @@
 
 
 
+## v0.2.1 (2024-02-16)
+
+### Fix
+
+* fix: exporting ObjectAggregation and VectorAggregation from main module ([`975e215`](https://github.com/chanind/linear-relational/commit/975e215cc44f7d45f6c676ecd2efc73f5db9a546))
+
+
 ## v0.2.0 (2024-02-16)
 
 ### Chore
