@@ -2,6 +2,17 @@
 
 
 
+## v0.2.0 (2024-02-16)
+
+### Chore
+
+* chore: update setup-python action to use node 20 ([`18051cc`](https://github.com/chanind/linear-relational/commit/18051cc2c1615abb7af32db0aa80c7b0ffe81fdb))
+
+### Feature
+
+* feat: allow passing a callable as inv_lre to train_relation_concepts_from_inv_lre() (#2) ([`12fa48e`](https://github.com/chanind/linear-relational/commit/12fa48e77e7ee7901420557b9eea0055f02381c8))
+
+
 ## v0.1.4 (2024-02-15)
 
 ### Chore
