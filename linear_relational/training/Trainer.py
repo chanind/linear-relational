@@ -122,9 +122,12 @@ class Trainer:
         ).invert(inv_lre_rank)
 
         return self.train_relation_concepts_from_inv_lre(
+            relation=relation,
             inv_lre=inv_lre,
             prompts=processed_prompts,
             vector_aggregation=vector_aggregation,
+            object_aggregation=object_aggregation,
+            object_layer=object_layer,
             validate_prompts_batch_size=validate_prompts_batch_size,
             validate_prompts=False,  # we already validated the prompts above
             name_concept_fn=name_concept_fn,
@@ -133,16 +136,33 @@ class Trainer:
 
     def train_relation_concepts_from_inv_lre(
         self,
-        inv_lre: InvertedLre,
+        inv_lre: InvertedLre | Callable[[str], InvertedLre],
         prompts: list[Prompt],
         vector_aggregation: VectorAggregation = "post_mean",
+        object_aggregation: ObjectAggregation | None = None,
+        relation: str | None = None,
+        object_layer: int | None = None,
         validate_prompts_batch_size: int = 4,
         extract_objects_batch_size: int = 4,
         validate_prompts: bool = True,
         name_concept_fn: Optional[Callable[[str, str], str]] = None,
         verbose: bool = True,
     ) -> list[Concept]:
-        relation = inv_lre.relation
+        if isinstance(inv_lre, InvertedLre):
+            if object_aggregation is None:
+                object_aggregation = inv_lre.object_aggregation
+            if object_layer is None:
+                object_layer = inv_lre.object_layer
+            if relation is None:
+                relation = inv_lre.relation
+        if object_aggregation is None:
+            raise ValueError(
+                "object_aggregation must be specified if inv_lre is a function"
+            )
+        if object_layer is None:
+            raise ValueError("object_layer must be specified if inv_lre is a function")
+        if relation is None:
+            raise ValueError("relation must be specified if inv_lre is a function")
         processed_prompts = self._process_relation_prompts(
             relation=relation,
             prompts=prompts,
@@ -154,8 +174,8 @@ class Trainer:
         object_activations = self._extract_target_object_activations_for_inv_lre(
             prompts=processed_prompts,
             batch_size=extract_objects_batch_size,
-            object_aggregation=inv_lre.object_aggregation,
-            object_layer=inv_lre.object_layer,
+            object_aggregation=object_aggregation,
+            object_layer=object_layer,
             show_progress=verbose,
             move_to_cpu=True,
         )
@@ -169,13 +189,18 @@ class Trainer:
                 object_name,
                 activations,
             ) in object_activations.items():
+                resolved_inv_lre = (
+                    inv_lre
+                    if isinstance(inv_lre, InvertedLre)
+                    else inv_lre(object_name)
+                )
                 name = None
                 if name_concept_fn is not None:
                     name = name_concept_fn(relation, object_name)
                 concept = self._build_concept(
                     relation_name=relation,
-                    layer=inv_lre.subject_layer,
-                    inv_lre=inv_lre,
+                    layer=resolved_inv_lre.subject_layer,
+                    inv_lre=resolved_inv_lre,
                     object_name=object_name,
                     activations=activations,
                     vector_aggregation=vector_aggregation,

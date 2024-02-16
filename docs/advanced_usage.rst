@@ -87,6 +87,38 @@ is shown below:
     )
 
 
+It's also possible to pass a lambda function as the ``inv_lre`` param to allow using a different inverted LRE
+for each object. This lambda takes the object as a string and returns the inverted LRE for that object. However,
+if you use this approach, you must also pass in ``relation``, ``object_aggregation`` and ``object_layer``, as these
+cannot be inferred from the inverted LRE when passed as a function.
+
+This is shown below:
+
+.. code:: python
+
+    from linear_relational import Trainer
+
+    trainer = Trainer(model, tokenizer)
+    prompts = [...]
+
+    lre1 = trainer.train_lre(...)
+    inv_lre1 = lre.invert(rank=200)
+
+    lre2 = trainer.train_lre(...)
+    inv_lre2 = lre.invert(rank=200)
+
+    def inv_lre_fn(object_name):
+        return inv_lre1 if object_name == "Paris" else inv_lre2
+
+    concepts = trainer.train_relation_concepts_from_inv_lre(
+        inv_lre=inv_lre_fn,
+        prompts=prompts,
+        relation="located_in_country",
+        object_aggregation="mean",
+        object_layer=20,
+    )
+
+
 Custom objects in prompts
 '''''''''''''''''''''''''
 
