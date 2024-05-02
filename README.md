@@ -1,6 +1,7 @@
 # Linear-Relational
 
 [![ci](https://img.shields.io/github/actions/workflow/status/chanind/linear-relational/ci.yaml?branch=main)](https://github.com/chanind/linear-relational)
+[![Codecov](https://img.shields.io/codecov/c/github/chanind/linear-relational/main)](https://codecov.io/gh/chanind/linear-relational)
 [![PyPI](https://img.shields.io/pypi/v/linear-relational?color=blue)](https://pypi.org/project/linear-relational/)
 
 Linear Relational Embeddings (LREs) and Linear Relational Concepts (LRCs) for LLMs using PyTorch and Huggingface Transformers.
@@ -30,6 +31,7 @@ v_{o} = W^{\dagger}(o - b)
 $$
 
 For more information on LREs and LRCs, check out the following papers:
+
 - [Identifying Linear Relational Concepts in Large Language Models](https://arxiv.org/abs/2311.08968)
 - [Linearity of Relation Decoding in Transformer Language Models](https://arxiv.org/abs/2308.09124)
 
