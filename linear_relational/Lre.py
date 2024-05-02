@@ -51,11 +51,11 @@ class InvertedLre(nn.Module):
 
     def forward(
         self,
-        subject_activations: torch.Tensor,  # a tensor of shape (num_activations, hidden_activation_size)
+        object_activations: torch.Tensor,  # a tensor of shape (num_activations, hidden_activation_size)
         normalize: bool = False,
     ) -> torch.Tensor:
-        return self.calculate_object_activation(
-            subject_activations=subject_activations,
+        return self.calculate_subject_activation(
+            object_activations=object_activations,
             normalize=normalize,
         )
 

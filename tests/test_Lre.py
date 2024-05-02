@@ -68,6 +68,7 @@ def test_LowRankLre_calculate_object_activation_unnormalized() -> None:
     )
     vec = lre.calculate_object_activation(acts, normalize=False)
     assert torch.allclose(vec, torch.tensor([0.5, 0.5, 0.5]))
+    assert torch.allclose(vec, lre(acts, normalize=False))
     assert lre.rank == 3
 
 
@@ -92,6 +93,7 @@ def test_InvertedLre_calculate_subject_activation_unnormalized() -> None:
     )
     vec = inv_lre.calculate_subject_activation(acts, normalize=False)
     assert torch.allclose(vec, torch.tensor([0.5, 0.5, 0.5]))
+    assert torch.allclose(vec, inv_lre(acts, normalize=False))
     assert inv_lre.rank == 3
 
 
@@ -118,3 +120,4 @@ def test_InvertedLre_calculate_subject_activation_normalized() -> None:
     raw_target = torch.tensor([0.5, 0.5, 0.5])
     target = raw_target / raw_target.norm()
     assert torch.allclose(vec, target)
+    assert torch.allclose(vec, inv_lre(acts, normalize=True))
