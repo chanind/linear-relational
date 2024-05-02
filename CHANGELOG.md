@@ -2,6 +2,21 @@
 
 
 
+## v0.3.0 (2024-05-02)
+
+### Chore
+
+* chore: adding codecov (#4) ([`d25bc48`](https://github.com/chanind/linear-relational/commit/d25bc4803fe7d4748ada69843db4c63036e97beb))
+
+* chore: Update README.md ([`d35bc8b`](https://github.com/chanind/linear-relational/commit/d35bc8b540862429338fbddba809fe9c06099b48))
+
+* chore: removing unused constant ([`5b60e5b`](https://github.com/chanind/linear-relational/commit/5b60e5b546f4a9a2cb2378d6d48dcab6c3643d40))
+
+### Feature
+
+* feat: allow setting max prompts in LRE training (#5) ([`2066999`](https://github.com/chanind/linear-relational/commit/2066999bf4d60ae63beb287dbb367c0de78006c0))
+
+
 ## v0.2.1 (2024-02-16)
 
 ### Fix
