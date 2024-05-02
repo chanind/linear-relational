@@ -52,11 +52,13 @@ class Trainer:
         subject_layer: int,
         object_layer: int,
         prompts: list[Prompt],
+        max_lre_training_samples: int | None = None,
         object_aggregation: ObjectAggregation = "mean",
         validate_prompts: bool = True,
         validate_prompts_batch_size: int = 4,
         move_to_cpu: bool = False,
         verbose: bool = True,
+        seed: int | str | float = 42,
     ) -> Lre:
         processed_prompts = self._process_relation_prompts(
             relation=relation,
@@ -65,6 +67,12 @@ class Trainer:
             validate_prompts_batch_size=validate_prompts_batch_size,
             verbose=verbose,
         )
+        prompts_by_object = group_items(processed_prompts, lambda p: p.object_name)
+        lre_train_prompts = balance_grouped_items(
+            items_by_group=prompts_by_object,
+            max_total=max_lre_training_samples,
+            seed=seed,
+        )
         return train_lre(
             model=self.model,
             tokenizer=self.tokenizer,
@@ -72,7 +80,7 @@ class Trainer:
             relation=relation,
             subject_layer=subject_layer,
             object_layer=object_layer,
-            prompts=processed_prompts,
+            prompts=lre_train_prompts,
             object_aggregation=object_aggregation,
             move_to_cpu=move_to_cpu,
         )
@@ -110,15 +118,15 @@ class Trainer:
             max_total=max_lre_training_samples,
             seed=seed,
         )
-        inv_lre = self.train_lre(
+        inv_lre = train_lre(
+            model=self.model,
+            tokenizer=self.tokenizer,
+            layer_matcher=self.layer_matcher,
             relation=relation,
             subject_layer=subject_layer,
             object_layer=object_layer,
             prompts=lre_train_prompts,
             object_aggregation=object_aggregation,
-            validate_prompts=False,  # we already validated the prompts above
-            validate_prompts_batch_size=validate_prompts_batch_size,
-            verbose=verbose,
         ).invert(inv_lre_rank)
 
         return self.train_relation_concepts_from_inv_lre(
