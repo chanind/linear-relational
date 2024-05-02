@@ -2,6 +2,13 @@
 
 
 
+## v0.3.1 (2024-05-02)
+
+### Fix
+
+* fix: fixing bug in inverted LRE forward() ([`46510ae`](https://github.com/chanind/linear-relational/commit/46510ae2f5f44f95a4ca9defef3e4d74bb6e44e8))
+
+
 ## v0.3.0 (2024-05-02)
 
 ### Chore
