@@ -33,6 +33,57 @@ def prompts_from_samples(samples: list[tuple[str, str]], template: str) -> list[
     return prompts
 
 
+def test_Trainer_train_lre(
+    model: GPT2LMHeadModel, tokenizer: GPT2TokenizerFast
+) -> None:
+    template = "{} is located in the country of"
+    japan_cities = [
+        "Tokyo",
+        "Osaka",
+        "Nagoya",
+        "Hiroshima",
+        "Yokohama",
+        "Kyoto",
+        "Nagasaki",
+        "Kobe",
+        "Kitashima",
+        "Kyushu",
+    ]
+    china_cities = [
+        "Beijing",
+        "Shanghai",
+        "Nanjing",
+        "Hangzhou",
+        "Peking",
+        "Qingdao",
+        "Chongqing",
+        "Changsha",
+        "Wuhan",
+        "Chengdu",
+    ]
+    samples: list[tuple[str, str]] = []
+    for city in japan_cities:
+        samples.append((city, "Japan"))
+    for city in china_cities:
+        samples.append((city, "China"))
+    samples = stable_shuffle(samples)
+    prompts = prompts_from_samples(samples, template)
+
+    trainer = Trainer(model, tokenizer)
+
+    lre = trainer.train_lre(
+        relation="located_in_country",
+        subject_layer=8,
+        object_layer=10,
+        prompts=prompts,
+    )
+
+    assert lre.subject_layer == 8
+    assert lre.object_layer == 10
+    assert lre.weight.shape == (768, 768)
+    assert lre.bias.shape == (768,)
+
+
 def test_Trainer_train_relation_concepts(
     model: GPT2LMHeadModel, tokenizer: GPT2TokenizerFast
 ) -> None:
