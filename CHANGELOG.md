@@ -2,6 +2,17 @@
 
 
 
+## v0.4.0 (2024-06-29)
+
+### Feature
+
+* feat: add map_activations_fn param in ConceptMatcher (#6)
+
+* feat: allow passing a map_activations_fn to ConceptMatcher
+
+* it seems tranformers &gt;4.42.0 is broken ([`1ac957a`](https://github.com/chanind/linear-relational/commit/1ac957a0f3e3977e07c565c0594f394f960ca058))
+
+
 ## v0.3.1 (2024-05-02)
 
 ### Fix

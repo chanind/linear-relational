@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "linear-relational"
-version = "0.3.1"
+version = "0.4.0"
 description = "A Python library for working with Linear Relational Embeddings (LREs) and Linear Relational Concepts (LRCs) for LLMs"
 authors = ["David Chanin <chanindav@gmail.com>"]
 readme = "README.md"
