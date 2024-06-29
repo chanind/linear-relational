@@ -6,7 +6,10 @@ from tokenizers import Tokenizer
 from torch import nn
 
 from linear_relational.Concept import Concept
-from linear_relational.lib.extract_token_activations import extract_token_activations
+from linear_relational.lib.extract_token_activations import (
+    TokenLayerActivationsList,
+    extract_token_activations,
+)
 from linear_relational.lib.layer_matching import (
     LayerMatcher,
     collect_matching_layers,
@@ -52,6 +55,9 @@ class ConceptMatcher:
     tokenizer: Tokenizer
     layer_matcher: LayerMatcher
     layer_name_to_num: dict[str, int]
+    map_activations_fn: (
+        Callable[[TokenLayerActivationsList], TokenLayerActivationsList] | None
+    )
 
     def __init__(
         self,
@@ -59,11 +65,15 @@ class ConceptMatcher:
         tokenizer: Tokenizer,
         concepts: list[Concept],
         layer_matcher: Optional[LayerMatcher] = None,
+        map_activations_fn: (
+            Callable[[TokenLayerActivationsList], TokenLayerActivationsList] | None
+        ) = None,
     ) -> None:
         self.concepts = concepts
         self.model = model
         self.tokenizer = tokenizer
         self.layer_matcher = layer_matcher or guess_hidden_layer_matcher(model)
+        self.map_activations_fn = map_activations_fn
         ensure_tokenizer_has_pad_token(tokenizer)
         num_layers = len(collect_matching_layers(self.model, self.layer_matcher))
         self.layer_name_to_num = {}
@@ -100,6 +110,10 @@ class ConceptMatcher:
                 batch_size=len(queries),
                 show_progress=False,
             )
+            if self.map_activations_fn is not None:
+                batch_subj_token_activations = self.map_activations_fn(
+                    batch_subj_token_activations
+                )
 
         results: list[QueryResult] = []
         for raw_subj_token_activations in batch_subj_token_activations:

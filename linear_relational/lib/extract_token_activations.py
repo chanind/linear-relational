@@ -11,6 +11,8 @@ from .torch_utils import untuple_tensor
 from .TraceLayerDict import TraceLayerDict
 from .util import batchify, tuplify
 
+TokenLayerActivationsList = list[OrderedDict[str, list[torch.Tensor]]]
+
 
 def extract_token_activations(
     model: nn.Module,
@@ -22,12 +24,12 @@ def extract_token_activations(
     move_results_to_cpu: bool = True,
     batch_size: int = 32,
     show_progress: bool = False,
-) -> list[OrderedDict[str, list[torch.Tensor]]]:
+) -> TokenLayerActivationsList:
     if len(texts) != len(token_indices):
         raise ValueError(
             f"Expected {len(texts)} texts to match {len(token_indices)} subject token indices"
         )
-    results: list[OrderedDict[str, list[torch.Tensor]]] = []
+    results: TokenLayerActivationsList = []
     for batch in batchify(
         # need to turn the zip into a list or mypy complains
         list(zip(texts, token_indices)),
