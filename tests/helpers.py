@@ -43,3 +43,7 @@ def quick_concept(
         vector=concept_vec,
         layer=layer,
     )
+
+
+def normalize(vec: torch.Tensor) -> torch.Tensor:
+    return vec / vec.norm()
