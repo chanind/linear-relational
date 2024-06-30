@@ -72,6 +72,9 @@ class InvertedLre(nn.Module):
             vec = vec / vec.norm()
         return vec
 
+    def __repr__(self) -> str:
+        return f"InvertedLre({self.relation}, rank {self.rank}, layers {self.subject_layer} -> {self.object_layer}, {self.object_aggregation})"
+
 
 class LowRankLre(nn.Module):
     """Low-rank approximation of a LRE"""
@@ -139,6 +142,9 @@ class LowRankLre(nn.Module):
         if normalize:
             vec = vec / vec.norm()
         return vec
+
+    def __repr__(self) -> str:
+        return f"LowRankLre({self.relation}, rank {self.rank}, layers {self.subject_layer} -> {self.object_layer}, {self.object_aggregation})"
 
 
 class Lre(nn.Module):
@@ -211,3 +217,6 @@ class Lre(nn.Module):
         low_rank_v: torch.Tensor = v[:, :rank].to(self.weight.dtype)
         low_rank_s: torch.Tensor = s[:rank].to(self.weight.dtype)
         return low_rank_u, low_rank_s, low_rank_v
+
+    def __repr__(self) -> str:
+        return f"Lre({self.relation}, layers {self.subject_layer} -> {self.object_layer}, {self.object_aggregation})"

@@ -13,6 +13,7 @@ def test_Lre_invert() -> None:
         bias=bias,
         weight=torch.eye(3),
     )
+    assert lre.__repr__() == "Lre(test, layers 5 -> 10, mean)"
     inv_lre = lre.invert(rank=2)
     assert inv_lre.relation == "test"
     assert inv_lre.subject_layer == 5
@@ -23,6 +24,7 @@ def test_Lre_invert() -> None:
     assert inv_lre.s.shape == (2,)
     assert inv_lre.v.shape == (3, 2)
     assert inv_lre.rank == 2
+    assert inv_lre.__repr__() == "InvertedLre(test, rank 2, layers 5 -> 10, mean)"
 
 
 def test_Lre_to_low_rank() -> None:
@@ -36,6 +38,7 @@ def test_Lre_to_low_rank() -> None:
         weight=torch.eye(3),
     )
     low_rank_lre = lre.to_low_rank(rank=2)
+    assert lre.__repr__() == "Lre(test, layers 5 -> 10, mean)"
     assert low_rank_lre.relation == "test"
     assert low_rank_lre.subject_layer == 5
     assert low_rank_lre.object_layer == 10
@@ -45,6 +48,7 @@ def test_Lre_to_low_rank() -> None:
     assert low_rank_lre.s.shape == (2,)
     assert low_rank_lre.v.shape == (3, 2)
     assert low_rank_lre.rank == 2
+    assert low_rank_lre.__repr__() == "LowRankLre(test, rank 2, layers 5 -> 10, mean)"
 
 
 def test_LowRankLre_calculate_object_activation_unnormalized() -> None:
