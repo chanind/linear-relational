@@ -2,6 +2,13 @@
 
 
 
+## v0.5.0 (2024-06-30)
+
+### Feature
+
+* feat: improving Lre __repr__() ([`011d936`](https://github.com/chanind/linear-relational/commit/011d9369ff73c390ac53457138e067a18a5909c9))
+
+
 ## v0.4.0 (2024-06-29)
 
 ### Feature
