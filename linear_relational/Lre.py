@@ -192,6 +192,26 @@ class Lre(nn.Module):
             metadata=self.metadata,
         )
 
+    def forward(
+        self, subject_activations: torch.Tensor, normalize: bool = False
+    ) -> torch.Tensor:
+        return self.calculate_object_activation(
+            subject_activations=subject_activations, normalize=normalize
+        )
+
+    def calculate_object_activation(
+        self,
+        subject_activations: torch.Tensor,  # a tensor of shape (num_activations, hidden_activation_size)
+        normalize: bool = False,
+    ) -> torch.Tensor:
+        # match precision of weight_inverse and bias
+        vec = subject_activations @ self.weight.T + self.bias
+        if len(vec.shape) == 2:
+            vec = vec.mean(dim=0)
+        if normalize:
+            vec = vec / vec.norm()
+        return vec
+
     def to_low_rank(self, rank: int) -> LowRankLre:
         """Create a low-rank approximation of this LRE"""
         u, s, v = self._low_rank_svd(rank)

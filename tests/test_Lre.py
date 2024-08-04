@@ -51,6 +51,21 @@ def test_Lre_to_low_rank() -> None:
     assert low_rank_lre.__repr__() == "LowRankLre(test, rank 2, layers 5 -> 10, mean)"
 
 
+def test_Lre_to_low_rank_forward_matches_original_lre() -> None:
+    bias = torch.tensor([1.0, 0.0, 0.0])
+    lre = Lre(
+        relation="test",
+        subject_layer=5,
+        object_layer=10,
+        object_aggregation="mean",
+        bias=bias,
+        weight=torch.eye(3) + torch.randn(3, 3),
+    )
+    full_low_rank_lre = lre.to_low_rank(rank=3)
+    test_input = torch.rand(2, 3)
+    assert torch.allclose(full_low_rank_lre(test_input), lre(test_input), atol=1e-4)
+
+
 def test_LowRankLre_calculate_object_activation_unnormalized() -> None:
     acts = torch.stack(
         [
