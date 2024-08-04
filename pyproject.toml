@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-transformers = "<4.42.0"
+transformers = "^4.42.0"
 tqdm = ">=4.0.0"
 dataclasses-json = "^0.6.2"
 
