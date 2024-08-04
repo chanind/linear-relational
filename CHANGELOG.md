@@ -2,6 +2,13 @@
 
 
 
+## v0.5.1 (2024-08-04)
+
+### Fix
+
+* fix: relax transformers version ([`fd7b86c`](https://github.com/chanind/linear-relational/commit/fd7b86ce573ab427bf77d37b4e6d7c51be3f00ba))
+
+
 ## v0.5.0 (2024-06-30)
 
 ### Feature
