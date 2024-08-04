@@ -2,6 +2,13 @@
 
 
 
+## v0.6.0 (2024-08-04)
+
+### Feature
+
+* feat: adding LRE forward() method (#8) ([`9558e5f`](https://github.com/chanind/linear-relational/commit/9558e5fffacfd7992bfaad08ff8f0c961e648921))
+
+
 ## v0.5.2 (2024-08-04)
 
 ### Fix
