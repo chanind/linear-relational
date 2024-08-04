@@ -22,7 +22,7 @@ def get_device(model: nn.Module) -> torch.device:
     """
     Returns the device on which the model is running.
     """
-    if isinstance(model.device, torch.device):
+    if hasattr(model, "device") and isinstance(model.device, torch.device):
         return model.device
     return next(model.parameters()).device
 
