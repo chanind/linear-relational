@@ -2,6 +2,13 @@
 
 
 
+## v0.5.2 (2024-08-04)
+
+### Fix
+
+* fix: get_device should gracefully handle models without a device attr (#7) ([`5fb2681`](https://github.com/chanind/linear-relational/commit/5fb26819c4232e399810c36ff25601c7d3f3b02a))
+
+
 ## v0.5.1 (2024-08-04)
 
 ### Fix
