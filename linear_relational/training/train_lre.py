@@ -3,12 +3,14 @@ from typing import Iterable, Literal
 import torch
 from tokenizers import Tokenizer
 from torch import nn
+from transformers.cache_utils import HybridCache
 
 from linear_relational.lib.layer_matching import (
     LayerMatcher,
     fix_neg_layer_num,
     get_layer_name,
 )
+from linear_relational.lib.logger import logger
 from linear_relational.lib.token_utils import (
     find_final_word_token_index,
     find_prompt_answer_data,
@@ -102,16 +104,36 @@ def order_1_approx(
     inputs = tokenizer(prompt_text, return_tensors="pt").to(device)
 
     # Precompute everything up to the subject, if there is anything before it.
-    past_key_values = None
     input_ids = inputs.input_ids
+    # lots of cache pos hackery to get caching to work with gemma2: https://github.com/huggingface/transformers/issues/31981
+    precache_extra_params = {}
+    postcache_extra_params = {}
+    if (
+        hasattr(model, "config")
+        and getattr(model.config, "cache_implementation", None) == "hybrid"
+    ):
+        cache = HybridCache(model.config, input_ids.shape[0], input_ids.shape[1] + 1)
+        cache_position = torch.arange(input_ids.shape[1], device=device)
+        precache_extra_params["past_key_values"] = cache
+        precache_extra_params["cache_position"] = cache_position[:subject_index]
+        postcache_extra_params["cache_position"] = cache_position[subject_index:]
     _subject_index = subject_index
     _object_pred_indices = object_pred_indices
     if _subject_index > 0:
-        outputs = model(input_ids=input_ids[:, :_subject_index], use_cache=True)
+        outputs = model(
+            input_ids=input_ids[:, :_subject_index],
+            use_cache=True,
+            **precache_extra_params,
+        )
         past_key_values = outputs.past_key_values
-        input_ids = input_ids[:, _subject_index:]
-        _subject_index = 0
-        _object_pred_indices = [i - subject_index for i in object_pred_indices]
+        if past_key_values is None:
+            logger.warn(
+                "Model did not return past_key_values, so the cache will not be used. This may use a lot of memory."
+            )
+        else:
+            input_ids = input_ids[:, _subject_index:]
+            _subject_index = 0
+            _object_pred_indices = [i - subject_index for i in object_pred_indices]
     use_cache = past_key_values is not None
 
     # Precompute initial h and z.
@@ -122,6 +144,7 @@ def order_1_approx(
             input_ids=input_ids,
             use_cache=use_cache,
             past_key_values=past_key_values,
+            **postcache_extra_params,
         )
     subject_layer_output = ret[subject_layer_name].output
     assert subject_layer_output is not None  # keep mypy happy
