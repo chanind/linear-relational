@@ -22,8 +22,8 @@ def model() -> GPT2LMHeadModel:
 def empty_gemma2_model() -> Gemma2ForCausalLM:
     config = Gemma2Config(
         num_hidden_layers=3,
-        hidden_size=1024,
-        intermediate_size=2752,
+        hidden_size=64,
+        intermediate_size=128,
         vocab_size=_tokenizer.vocab_size,
     )
     return Gemma2ForCausalLM(config).eval()

@@ -15,7 +15,11 @@ from linear_relational.lib.token_utils import (
     find_final_word_token_index,
     find_prompt_answer_data,
 )
-from linear_relational.lib.torch_utils import get_device, untuple_tensor
+from linear_relational.lib.torch_utils import (
+    get_device,
+    get_dtype,
+    untuple_tensor,
+)
 from linear_relational.lib.TraceLayer import TraceLayer
 from linear_relational.lib.TraceLayerDict import TraceLayerDict
 from linear_relational.Lre import Lre
@@ -112,7 +116,12 @@ def order_1_approx(
         hasattr(model, "config")
         and getattr(model.config, "cache_implementation", None) == "hybrid"
     ):
-        cache = HybridCache(model.config, input_ids.shape[0], input_ids.shape[1] + 1)
+        cache = HybridCache(
+            model.config,
+            input_ids.shape[0],
+            input_ids.shape[1] + 1,
+            dtype=get_dtype(model),
+        )
         cache_position = torch.arange(input_ids.shape[1], device=device)
         precache_extra_params["past_key_values"] = cache
         precache_extra_params["cache_position"] = cache_position[:subject_index]

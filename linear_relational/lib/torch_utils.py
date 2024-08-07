@@ -18,6 +18,13 @@ def get_module(model: nn.Module, name: str) -> nn.Module:
     raise LookupError(name)
 
 
+def get_dtype(model: nn.Module) -> torch.dtype:
+    """
+    Returns the dtype of the model.
+    """
+    return next(model.parameters()).dtype
+
+
 def get_device(model: nn.Module) -> torch.device:
     """
     Returns the device on which the model is running.

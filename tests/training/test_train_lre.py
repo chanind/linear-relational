@@ -138,6 +138,43 @@ def test_train_lre_on_single_prompt_with_gemma2_perfectly_replicates_object(
         texts=[prompt.text],
         layers=["model.layers.2"],
     )[0]["model.layers.2"]
-    print(lre(subj_act))
-    print(obj_act)
     assert torch.allclose(lre(subj_act), obj_act, atol=1e-4)
+
+
+def test_train_lre_works_with_gemma2_and_float16(
+    empty_gemma2_model: PreTrainedModel, tokenizer: GPT2TokenizerFast
+) -> None:
+    model = empty_gemma2_model.half()
+    prompt = create_prompt(
+        text="Tokyo is located in the country of",
+        answer="Japan",
+        subject="Tokyo",
+    )
+    lre = train_lre(
+        model=model,
+        tokenizer=tokenizer,
+        layer_matcher="model.layers.{num}",
+        relation="city in country",
+        subject_layer=1,
+        object_layer=2,
+        prompts=[prompt],
+    ).float()
+
+    subj_index = (
+        find_token_range(tokenizer, tokenizer.encode(prompt.text), prompt.subject)[-1]
+        - 1
+    )
+    subj_act = extract_token_activations(
+        model=model,
+        tokenizer=tokenizer,
+        texts=[prompt.text],
+        layers=["model.layers.1"],
+        token_indices=[subj_index],
+    )[0]["model.layers.1"][0]
+    obj_act = extract_final_token_activations(
+        model=model,
+        tokenizer=tokenizer,
+        texts=[prompt.text],
+        layers=["model.layers.2"],
+    )[0]["model.layers.2"]
+    assert torch.allclose(lre(subj_act), obj_act, atol=5e-4)
