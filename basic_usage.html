@@ -1,0 +1,448 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Advanced usage" href="advanced_usage.html" /><link rel="prev" title="Linear-Relational" href="index.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2023.09.10 -->
+        <title>Basic usage - linear-relational 0.6.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">linear-relational 0.6.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">linear-relational 0.6.2 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Basic usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage.html">Advanced usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/trainer.html">Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/lre.html">Lre</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept.html">Concept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/causal_editor.html">CausalEditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept_matcher.html">ConceptMatcher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/chanind/linear-relational">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/linear-relational">PyPI</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="basic-usage">
+<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h1>
+<p>This library assumes you’re using PyTorch with a decoder-only generative language
+model (e.g., GPT, LLaMa, etc…), and a tokenizer from Huggingface.</p>
+<section id="training-a-lre">
+<h2>Training a LRE<a class="headerlink" href="#training-a-lre" title="Link to this heading">¶</a></h2>
+<p>To train a LRE for a relation, first collect prompts which elicit the relation.
+We provide a <code class="docutils literal notranslate"><span class="pre">Prompt</span></code> class to represent this data, and a <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> class to make training
+a LRE easy. Below, we train a LRE to represent the “located in country” relation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2LMHeadModel</span><span class="p">,</span> <span class="n">GPT2TokenizerFast</span>
+<span class="kn">from</span> <span class="nn">linear_relational</span> <span class="kn">import</span> <span class="n">Prompt</span><span class="p">,</span> <span class="n">Trainer</span>
+
+<span class="c1"># We load a generative LM from huggingface. The LMHead must be included.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prompts consist of text, an answer, and subject.</span>
+<span class="c1"># The subject must appear in the text. The answer</span>
+<span class="c1"># is what the model should respond with, and corresponds to the &quot;object&quot;</span>
+<span class="n">prompts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Paris is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;France&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Paris&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Shanghai is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Kyoto is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Kyoto&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;San Jose is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;Costa Rica&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;San Jose&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+
+<span class="n">lre</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_lre</span><span class="p">(</span>
+    <span class="n">relation</span><span class="o">=</span><span class="s2">&quot;located in country&quot;</span><span class="p">,</span>
+    <span class="n">subject_layer</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="c1"># subject layer must be before the object layer</span>
+    <span class="n">object_layer</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">prompts</span><span class="o">=</span><span class="n">prompts</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="working-with-a-lre">
+<h2>Working with a LRE<a class="headerlink" href="#working-with-a-lre" title="Link to this heading">¶</a></h2>
+<p>A LRE is a PyTorch module, so once a LRE is trained, we can use it to predict object activations from subject activations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">object_acts_estimate</span> <span class="o">=</span> <span class="n">lre</span><span class="p">(</span><span class="n">subject_acts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can also create a low-rank estimate of the LRE:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">low_rank_lre</span> <span class="o">=</span> <span class="n">lre</span><span class="o">.</span><span class="n">to_low_rank</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">low_rank_obj_acts_estimate</span> <span class="o">=</span> <span class="n">low_rank_lre</span><span class="p">(</span><span class="n">subject_acts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally we can invert the LRE:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inv_lre</span> <span class="o">=</span> <span class="n">lre</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">subject_acts_estimate</span> <span class="o">=</span> <span class="n">inv_lre</span><span class="p">(</span><span class="n">object_acts</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="training-lrcs-for-a-relation">
+<h2>Training LRCs for a relation<a class="headerlink" href="#training-lrcs-for-a-relation" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> can also create LRCs for a relation. Internally, this first create a LRE, inverts it,
+then generates LRCs from each object in the relation. Objects refer to the answers in the prompts,
+e.g. in the example above, “France” is an object, “Japan” is an object, etc…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2LMHeadModel</span><span class="p">,</span> <span class="n">GPT2TokenizerFast</span>
+<span class="kn">from</span> <span class="nn">linear_relational</span> <span class="kn">import</span> <span class="n">Prompt</span><span class="p">,</span> <span class="n">Trainer</span>
+
+<span class="c1"># We load a generative LM from huggingface. The LMHead must be included.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prompts consist of text, an answer, and subject.</span>
+<span class="c1"># The subject must appear in the text. The answer</span>
+<span class="c1"># is what the model should respond with, and corresponds to the &quot;object&quot;</span>
+<span class="n">prompts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Paris is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;France&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Paris&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Shanghai is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;China&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;Kyoto is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;Japan&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Kyoto&quot;</span><span class="p">),</span>
+    <span class="n">Prompt</span><span class="p">(</span><span class="s2">&quot;San Jose is located in the country of&quot;</span><span class="p">,</span> <span class="s2">&quot;Costa Rica&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;San Jose&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+
+<span class="n">concepts</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_relation_concepts</span><span class="p">(</span>
+    <span class="n">relation</span><span class="o">=</span><span class="s2">&quot;located in country&quot;</span><span class="p">,</span>
+    <span class="n">subject_layer</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">object_layer</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">prompts</span><span class="o">=</span><span class="n">prompts</span><span class="p">,</span>
+    <span class="n">max_lre_training_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">inv_lre_rank</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="causal-editing">
+<h2>Causal editing<a class="headerlink" href="#causal-editing" title="Link to this heading">¶</a></h2>
+<p>Once we have LRCs trained, we can use them to perform causal edits while the model is running.
+For instance, we can perform a causal edit to make the model output that
+“Shanghai is located in the country of France” by subtracting the
+“located in country: China” concept from “Shanghai” and adding the
+“located in country: France” concept. We can use the <code class="docutils literal notranslate"><span class="pre">CausalEditor</span></code> class to perform these edits.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linear_relational</span> <span class="kn">import</span> <span class="n">CausalEditor</span>
+
+<span class="n">concepts</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_relation_concepts</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">editor</span> <span class="o">=</span> <span class="n">CausalEditor</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">concepts</span><span class="o">=</span><span class="n">concepts</span><span class="p">)</span>
+
+<span class="n">edited_answer</span> <span class="o">=</span> <span class="n">editor</span><span class="o">.</span><span class="n">swap_subject_concepts_and_predict_greedy</span><span class="p">(</span>
+    <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Shanghai is located in the country of&quot;</span><span class="p">,</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">,</span>
+    <span class="n">remove_concept</span><span class="o">=</span><span class="s2">&quot;located in country: China&quot;</span><span class="p">,</span>
+    <span class="n">add_concept</span><span class="o">=</span><span class="s2">&quot;located in country: France&quot;</span><span class="p">,</span>
+    <span class="n">edit_single_layer</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">magnitude_multiplier</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">predict_num_tokens</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">edited_answer</span><span class="p">)</span> <span class="c1"># &quot; France&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="single-layer-vs-multi-layer-edits">
+<h2>Single-layer vs multi-layer edits<a class="headerlink" href="#single-layer-vs-multi-layer-edits" title="Link to this heading">¶</a></h2>
+<p>Above we performed a single-layer edit, only modifying subject activations at layer 8.
+However, we may want to perform an edit at all subject layers at the same time instead.
+To do this, we can pass <code class="docutils literal notranslate"><span class="pre">edit_single_layer=False</span></code> to <code class="docutils literal notranslate"><span class="pre">editor.swap_subject_concepts_and_predict_greedy()</span></code>.
+We should also reduce the <code class="docutils literal notranslate"><span class="pre">magnitude_multiplier</span></code> since now we’re going to make the edit at every layer, if we use
+too large of a multiplier we’ll drown out the rest of the activations in the model. The <code class="docutils literal notranslate"><span class="pre">magnitude_multiplier</span></code> is a
+hyperparameter that requires tuning depending on the model being edited.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linear_relational</span> <span class="kn">import</span> <span class="n">CausalEditor</span>
+
+<span class="n">concepts</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_relation_concepts</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">editor</span> <span class="o">=</span> <span class="n">CausalEditor</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">concepts</span><span class="o">=</span><span class="n">concepts</span><span class="p">)</span>
+
+<span class="n">edited_answer</span> <span class="o">=</span> <span class="n">editor</span><span class="o">.</span><span class="n">swap_subject_concepts_and_predict_greedy</span><span class="p">(</span>
+    <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Shanghai is located in the country of&quot;</span><span class="p">,</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">,</span>
+    <span class="n">remove_concept</span><span class="o">=</span><span class="s2">&quot;located in country: China&quot;</span><span class="p">,</span>
+    <span class="n">add_concept</span><span class="o">=</span><span class="s2">&quot;located in country: France&quot;</span><span class="p">,</span>
+    <span class="n">edit_single_layer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">magnitude_multiplier</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">predict_num_tokens</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">edited_answer</span><span class="p">)</span> <span class="c1"># &quot; France&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="concept-matching">
+<h2>Concept matching<a class="headerlink" href="#concept-matching" title="Link to this heading">¶</a></h2>
+<p>We can use learned concepts (LRCs) to act like classifiers and match them against subject activations in sentences.
+We can use the <code class="docutils literal notranslate"><span class="pre">ConceptMatcher</span></code> class to do this matching.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linear_relational</span> <span class="kn">import</span> <span class="n">ConceptMatcher</span>
+
+<span class="n">concepts</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train_relation_concepts</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">matcher</span> <span class="o">=</span> <span class="n">ConceptMatcher</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">concepts</span><span class="o">=</span><span class="n">concepts</span><span class="p">)</span>
+
+<span class="n">match_info</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Beijing is a northern city&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;Beijing&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">match_info</span><span class="o">.</span><span class="n">best_match</span><span class="o">.</span><span class="n">concept</span><span class="p">)</span> <span class="c1"># located in country: China</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">match_info</span><span class="o">.</span><span class="n">best_match</span><span class="o">.</span><span class="n">score</span><span class="p">)</span> <span class="c1"># 0.832</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="advanced_usage.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Advanced usage</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, David Chanin
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Basic usage</a><ul>
+<li><a class="reference internal" href="#training-a-lre">Training a LRE</a></li>
+<li><a class="reference internal" href="#working-with-a-lre">Working with a LRE</a></li>
+<li><a class="reference internal" href="#training-lrcs-for-a-relation">Training LRCs for a relation</a></li>
+<li><a class="reference internal" href="#causal-editing">Causal editing</a></li>
+<li><a class="reference internal" href="#single-layer-vs-multi-layer-edits">Single-layer vs multi-layer edits</a></li>
+<li><a class="reference internal" href="#concept-matching">Concept matching</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=1c28bd9a"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

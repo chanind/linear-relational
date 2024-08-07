@@ -1,0 +1,389 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Basic usage" href="basic_usage.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2023.09.10 -->
+        <title>linear-relational 0.6.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">linear-relational 0.6.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  
+  <span class="sidebar-brand-text">linear-relational 0.6.2 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage.html">Advanced usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/trainer.html">Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/lre.html">Lre</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept.html">Concept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/causal_editor.html">CausalEditor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept_matcher.html">ConceptMatcher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/chanind/linear-relational">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/linear-relational">PyPI</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="linear-relational">
+<h1>Linear-Relational<a class="headerlink" href="#linear-relational" title="Link to this heading">¶</a></h1>
+<p>A library for working with Linear Relational Embeddings (LREs) and Linear Relational Concepts (LRCs) for LLMs in PyTorch</p>
+<a class="reference external image-reference" href="https://pypi.org/project/linear-relational"><img alt="PyPI" src="https://img.shields.io/pypi/v/linear-relational.svg?color=blue" />
+</a>
+<a class="reference external image-reference" href="https://github.com/chanind/linear-relational"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/chanind/linear-relational/ci.yaml?branch=main" />
+</a>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Linear-Relational releases are hosted on <a class="reference external" href="https://pypi.org/project/linear-relational/">PyPI</a>, and can be installed using <cite>pip</cite> as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>linear-relational
+</pre></div>
+</div>
+<p>This library assumes you’re working with PyTorch and Huggingface Transformers.</p>
+</section>
+<section id="lres-and-lrcs">
+<h2>LREs and LRCs<a class="headerlink" href="#lres-and-lrcs" title="Link to this heading">¶</a></h2>
+<p>This library provides utilities and PyTorch modules for working with LREs and LRCs. LREs estimate the relation between a subject and object in a transformer language model (LM) as a linear map.</p>
+<p>This library assumes you’re working with sentences with a subject, relation, and object. For instance, in the sentence: “Lyon is located in the country of France” would have the subject “Lyon”, relation “located in country”, and object “France”. A LRE models a relation like “located in country” as a linear map consisting of a weight matrix <span class="math notranslate nohighlight">\(W\)</span> and a bias term <span class="math notranslate nohighlight">\(b\)</span>, so a LRE would map from the activations of the subject (Lyon) at layer <span class="math notranslate nohighlight">\(l_s\)</span> to the activations of the object (France) at layer <span class="math notranslate nohighlight">\(l_o\)</span>. So:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[LRE(s) = W s + b\]</div>
+</div>
+<p>LREs can be inverted using a low-rank inverse, shown as <span class="math notranslate nohighlight">\(LRE^{\dagger}\)</span>, to estimate <span class="math notranslate nohighlight">\(s\)</span> from <span class="math notranslate nohighlight">\(o\)</span>:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[LRE^{\dagger}(o) = W^{\dagger}(o - b)\]</div>
+</div>
+<p>Linear Relational Concepts (LRCs) represent a concept <span class="math notranslate nohighlight">\((r, o)\)</span> as a direction vector $v$ on subject tokens, and can act like a simple linear classifier. For instance, while a LRE can represent the relation “located in country”, we could learn a LRC for “located in the country: France”, “located in country: Germany”, “located in country: China”, etc… This is just the result from passing in an object activation into the inverse LRE equation above.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[LRC(o) = W^{\dagger}(o - b)\]</div>
+</div>
+<p>For more information on LREs and LRCs, check out <a class="reference external" href="https://arxiv.org/abs/2308.09124">these</a> <a class="reference external" href="https://arxiv.org/abs/2311.08968">papers</a>.</p>
+</section>
+<hr class="docutils" />
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#training-a-lre">Training a LRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#working-with-a-lre">Working with a LRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#training-lrcs-for-a-relation">Training LRCs for a relation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#causal-editing">Causal editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#single-layer-vs-multi-layer-edits">Single-layer vs multi-layer edits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_usage.html#concept-matching">Concept matching</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage.html">Advanced usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#bulk-editing">Bulk editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#bulk-concept-matching">Bulk concept matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#customizing-lrc-training">Customizing LRC training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#custom-objects-in-prompts">Custom objects in prompts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#skipping-prompt-validation">Skipping prompt validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#multi-token-object-aggregation">Multi-token object aggregation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_usage.html#custom-layer-selection">Custom layer selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#acknowledgements">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#citation">Citation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/trainer.html">Trainer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/trainer.html#linear_relational.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/trainer.html#linear_relational.Prompt"><code class="docutils literal notranslate"><span class="pre">Prompt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/lre.html">Lre</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/lre.html#linear_relational.Lre"><code class="docutils literal notranslate"><span class="pre">Lre</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/lre.html#linear_relational.LowRankLre"><code class="docutils literal notranslate"><span class="pre">LowRankLre</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/lre.html#linear_relational.InvertedLre"><code class="docutils literal notranslate"><span class="pre">InvertedLre</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept.html">Concept</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/concept.html#linear_relational.Concept"><code class="docutils literal notranslate"><span class="pre">Concept</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/causal_editor.html">CausalEditor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/causal_editor.html#linear_relational.CausalEditor"><code class="docutils literal notranslate"><span class="pre">CausalEditor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/causal_editor.html#linear_relational.ConceptSwapRequest"><code class="docutils literal notranslate"><span class="pre">ConceptSwapRequest</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/causal_editor.html#linear_relational.ConceptSwapAndPredictGreedyRequest"><code class="docutils literal notranslate"><span class="pre">ConceptSwapAndPredictGreedyRequest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/concept_matcher.html">ConceptMatcher</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/concept_matcher.html#linear_relational.ConceptMatcher"><code class="docutils literal notranslate"><span class="pre">ConceptMatcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/concept_matcher.html#linear_relational.ConceptMatchQuery"><code class="docutils literal notranslate"><span class="pre">ConceptMatchQuery</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/concept_matcher.html#linear_relational.QueryResult"><code class="docutils literal notranslate"><span class="pre">QueryResult</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/concept_matcher.html#linear_relational.ConceptMatchResult"><code class="docutils literal notranslate"><span class="pre">ConceptMatchResult</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/chanind/linear-relational">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/linear-relational">PyPI</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="basic_usage.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Basic usage</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, David Chanin
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Linear-Relational</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#lres-and-lrcs">LREs and LRCs</a></li>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=1c28bd9a"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
