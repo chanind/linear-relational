@@ -4,6 +4,8 @@ version = "0.6.1"
 description = "A Python library for working with Linear Relational Embeddings (LREs) and Linear Relational Concepts (LRCs) for LLMs"
 authors = ["David Chanin <chanindav@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/chanind/linear-relational"
+homepage = "https://chanind.github.io/linear-relational"
 
 [tool.poetry.dependencies]
 python = "^3.10"
