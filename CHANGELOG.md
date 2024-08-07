@@ -2,6 +2,13 @@
 
 
 
+## v0.6.1 (2024-08-07)
+
+### Fix
+
+* fix: fix cache behavior for gemma2 and warn if caching breaks (#9) ([`18a7bfc`](https://github.com/chanind/linear-relational/commit/18a7bfc27dd313da4b02a0d717b42c195075a5ec))
+
+
 ## v0.6.0 (2024-08-04)
 
 ### Feature
