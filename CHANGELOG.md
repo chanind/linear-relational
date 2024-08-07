@@ -2,6 +2,17 @@
 
 
 
+## v0.6.2 (2024-08-07)
+
+### Chore
+
+* chore: update repository / homepage metadata ([`b917d47`](https://github.com/chanind/linear-relational/commit/b917d47eab1d63c605479d345c0edab51cdda249))
+
+### Fix
+
+* fix: bug with gemma cache on non-fp32 (#10) ([`52a9fb7`](https://github.com/chanind/linear-relational/commit/52a9fb7c09b076554b9d84f2c430cc85710b8240))
+
+
 ## v0.6.1 (2024-08-07)
 
 ### Fix
